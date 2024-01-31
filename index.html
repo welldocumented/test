@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タイマー</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #timer {
+            font-size: 48px;
+            margin-top: 50px;
+        }
+        input {
+            font-size: 18px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>タイマー</h1>
+    <div>
+        <label for="minutes">分：</label>
+        <input type="number" id="minutes" min="0" step="1" value="0">
+        <label for="seconds">秒：</label>
+        <input type="number" id="seconds" min="0" max="59" step="1" value="0">
+    </div>
+    <button onclick="startTimer()">スタート</button>
+    <button onclick="stopTimer()">ストップ</button>
+    <div id="timer">00:00</div>
+
+    <script>
+        let interval;
+        function startTimer() {
+            const minutes = parseInt(document.getElementById('minutes').value);
+            const seconds = parseInt(document.getElementById('seconds').value);
+            let totalSeconds = minutes * 60 + seconds;
+
+            interval = setInterval(function() {
+                const minutesDisplay = Math.floor(totalSeconds / 60);
+                const secondsDisplay = totalSeconds % 60;
+                document.getElementById('timer').innerText = `${minutesDisplay.toString().padStart(2, '0')}:${secondsDisplay.toString().padStart(2, '0')}`;
+                totalSeconds--;
+                if (totalSeconds < 0) {
+                    clearInterval(interval);
+                    alert('時間です！');
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(interval);
+        }
+    </script>
+</body>
+</html>
