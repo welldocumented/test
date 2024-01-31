@@ -12,47 +12,45 @@
         #timer {
             font-size: 48px;
             margin-top: 50px;
-        }
-        input {
-            font-size: 18px;
-            padding: 10px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <h1>タイマー</h1>
-    <div>
-        <label for="minutes">分：</label>
-        <input type="number" id="minutes" min="0" step="1" value="0">
-        <label for="seconds">秒：</label>
-        <input type="number" id="seconds" min="0" max="59" step="1" value="0">
-    </div>
-    <button onclick="startTimer()">スタート</button>
-    <button onclick="stopTimer()">ストップ</button>
-    <div id="timer">00:00</div>
+    <div id="timer">クリックして秒数を指定</div>
 
     <script>
-        let interval;
+        let totalSeconds;
+
         function startTimer() {
-            const minutes = parseInt(document.getElementById('minutes').value);
-            const seconds = parseInt(document.getElementById('seconds').value);
-            let totalSeconds = minutes * 60 + seconds;
-
-            interval = setInterval(function() {
-                const minutesDisplay = Math.floor(totalSeconds / 60);
-                const secondsDisplay = totalSeconds % 60;
-                document.getElementById('timer').innerText = `${minutesDisplay.toString().padStart(2, '0')}:${secondsDisplay.toString().padStart(2, '0')}`;
-                totalSeconds--;
-                if (totalSeconds < 0) {
-                    clearInterval(interval);
-                    alert('時間です！');
+            if (totalSeconds === undefined) {
+                const userInput = prompt('秒数を入力してください:');
+                const inputSeconds = parseInt(userInput);
+                if (!isNaN(inputSeconds) && inputSeconds > 0) {
+                    totalSeconds = inputSeconds;
+                    updateTimerDisplay(totalSeconds);
+                } else {
+                    alert('正しい秒数を入力してください。');
                 }
-            }, 1000);
+            } else {
+                updateTimerDisplay(totalSeconds);
+            }
         }
 
-        function stopTimer() {
-            clearInterval(interval);
+        function updateTimerDisplay(seconds) {
+            const minutesDisplay = Math.floor(seconds / 60);
+            const secondsDisplay = seconds % 60;
+            document.getElementById('timer').innerText = `${minutesDisplay.toString().padStart(2, '0')}:${secondsDisplay.toString().padStart(2, '0')}`;
         }
+
+        document.getElementById('timer').addEventListener('click', function() {
+            startTimer();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            startTimer();
+        });
     </script>
 </body>
 </html>
