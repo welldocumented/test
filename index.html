@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タイマー</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #timer {
+            font-size: 48px;
+            margin-top: 50px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>タイマー</h1>
+    <div id="timer">180</div>
+
+    <script>
+        const initialSeconds = 180;
+        let totalSeconds = initialSeconds;
+
+        function startTimer() {
+            updateTimerDisplay(totalSeconds);
+        }
+
+        function updateTimerDisplay(seconds) {
+            const minutesDisplay = Math.floor(seconds / 60);
+            const secondsDisplay = seconds % 60;
+            document.getElementById('timer').innerText = `${minutesDisplay.toString().padStart(2, '0')}:${secondsDisplay.toString().padStart(2, '0')}`;
+        }
+
+        document.getElementById('timer').addEventListener('click', function() {
+            totalSeconds = initialSeconds;
+            startTimer();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            startTimer();
+        });
+    </script>
+</body>
+</html>
